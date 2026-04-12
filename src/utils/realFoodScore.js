@@ -451,29 +451,33 @@ export function calculateRealFoodScore(ingredientsText) {
   };
 
   parsed.forEach(ingredient => {
-    const cleaned = ingredient.toLowerCase().trim();
+    const cleaned = ingredient.toLowerCase().trim()
 
-    // Check if this ingredient matches any NOT REAL items first
-    // If it does, it fails the product immediately — no further checks needed
+    // Check REAL first — if confirmed real, skip the not-real check entirely
+    // This prevents "coconut flour" triggering on "flour" and "sunflower seeds"
+    // triggering on "sunflower oil" — real ingredients win if they match first
+    if (isReal(cleaned)) {
+      results.realIngredients.push(ingredient)
+      return
+    }
+
+    // Only run the not-real check if the ingredient failed the real check
     if (isNotReal(cleaned)) {
-      results.notRealIngredients.push(ingredient);
+      results.notRealIngredients.push(ingredient)
+      return
     }
-    // Check if it is a known REAL food
-    else if (isReal(cleaned)) {
-      results.realIngredients.push(ingredient);
+
+    // Caution items count toward real total but are flagged separately
+    if (isCaution(cleaned)) {
+      results.cautionIngredients.push(ingredient)
+      results.realIngredients.push(ingredient)
+      return
     }
-    // Check if it is a CAUTION ingredient
-    // Caution items count toward the real total but are flagged separately
-    else if (isCaution(cleaned)) {
-      results.cautionIngredients.push(ingredient);
-      results.realIngredients.push(ingredient);
-    }
-    // Unknown ingredients — strict standard treats these as NOT real
-    else {
-      results.unknownIngredients.push(ingredient);
-      results.notRealIngredients.push(ingredient);
-    }
-  });
+
+    // Unknown — strict standard treats these as not real
+    results.unknownIngredients.push(ingredient)
+    results.notRealIngredients.push(ingredient)
+  })
 
   const totalCount = parsed.length;
   const realCount = results.realIngredients.length;

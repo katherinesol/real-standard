@@ -1,5 +1,4 @@
 // Real Food Standard Scoring Engine
-// Based on the Toronto Clean-Label Initiative Real Food Standard v3.0
 // Scores products by checking every ingredient against three lists:
 // REAL (good), NOT REAL (automatic fail), CAUTION (allowed but flagged)
 

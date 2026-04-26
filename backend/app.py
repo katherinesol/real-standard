@@ -141,9 +141,36 @@ def get_saved_products():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
+        # parse pagination params with safe defaults
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 10, type=int)
+
+        # clamp per_page to a reasonable range to prevent abuse
+        if per_page > 100:
+            per_page = 100
+        if per_page < 1:
+            per_page = 10
+        if page < 1:
+            page = 1
+
         # only return products belonging to the logged in user
-        products = SavedProduct.query.filter_by(user_id=user_id).all()
-        return jsonify([p.to_dict() for p in products]), 200
+        # newest first
+        query = SavedProduct.query.filter_by(user_id=user_id).order_by(
+            SavedProduct.date_saved.desc()
+        )
+
+        # paginate the results
+        pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+
+        return jsonify({
+            "products": [p.to_dict() for p in pagination.items],
+            "page": pagination.page,
+            "per_page": pagination.per_page,
+            "total": pagination.total,
+            "pages": pagination.pages,
+            "has_next": pagination.has_next,
+            "has_prev": pagination.has_prev
+        }), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

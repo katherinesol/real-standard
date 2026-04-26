@@ -1,48 +1,110 @@
 import { Link, NavLink } from 'react-router-dom'
 
-function Navbar() {
+function Navbar({ user, onLogout }) {
   return (
-    <nav className="border-b border-gray-200 bg-[#fafaf8]">
-      <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
+    <nav style={{ borderBottom: '2px solid #0a0a0a', background: '#fafaf8' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 28, padding: '18px 48px' }}>
 
-          <Link to="/" className="flex items-baseline gap-1">
-            <span className="font-display text-3xl leading-none tracking-wide">
-              REAL<span className="text-green-600">FOOD</span>
-            </span>
-            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1 hidden sm:block">
-              Only
-            </span>
-          </Link>
-
-          <div className="flex items-center gap-8">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `text-xs font-bold uppercase tracking-widest transition hover:text-green-600 ${isActive ? 'text-green-600' : 'text-gray-900'}`
-              }
-            >
-              Search
-            </NavLink>
-            <NavLink
-              to="/manual"
-              className={({ isActive }) =>
-                `text-xs font-bold uppercase tracking-widest transition hover:text-green-600 ${isActive ? 'text-green-600' : 'text-gray-900'}`
-              }
-            >
-              Manual Check
-            </NavLink>
-            <NavLink
-              to="/about"
-              className={({ isActive }) =>
-                `text-xs font-bold uppercase tracking-widest transition hover:text-green-600 ${isActive ? 'text-green-600' : 'text-gray-900'}`
-              }
-            >
-              The Standard
-            </NavLink>
+        {/* wordmark */}
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <div style={{
+            fontFamily: '"Bebas Neue", "Oswald", sans-serif',
+            fontSize: 26,
+            letterSpacing: '0.01em',
+            lineHeight: 1,
+            color: '#0a0a0a'
+          }}>
+            REAL STANDARD
           </div>
+        </Link>
 
+        {/* volume marker */}
+        <div style={{
+          fontFamily: '"JetBrains Mono", monospace',
+          fontSize: 10,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: '#6b6b66',
+          borderLeft: '1px solid #0a0a0a',
+          paddingLeft: 14
+        }}>
+          Vol. 01 · Issue 001
         </div>
+
+        <span style={{ flex: 1 }} />
+
+        {/* nav links */}
+        <div style={{
+          display: 'flex',
+          gap: 28,
+          fontFamily: '"JetBrains Mono", monospace',
+          fontSize: 11,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase'
+        }}>
+          <NavLink to="/" style={({ isActive }) => ({
+            color: isActive ? '#0a0a0a' : '#6b6b66',
+            fontWeight: isActive ? 700 : 500,
+            textDecoration: 'none'
+          })}>
+            Scan
+          </NavLink>
+
+          {user && (
+            <NavLink to="/pantry" style={({ isActive }) => ({
+              color: isActive ? '#0a0a0a' : '#6b6b66',
+              fontWeight: isActive ? 700 : 500,
+              textDecoration: 'none'
+            })}>
+              Pantry
+            </NavLink>
+          )}
+
+          <NavLink to="/manual" style={({ isActive }) => ({
+            color: isActive ? '#0a0a0a' : '#6b6b66',
+            fontWeight: isActive ? 700 : 500,
+            textDecoration: 'none'
+          })}>
+            Manual Check
+          </NavLink>
+
+          <NavLink to="/about" style={({ isActive }) => ({
+            color: isActive ? '#0a0a0a' : '#6b6b66',
+            fontWeight: isActive ? 700 : 500,
+            textDecoration: 'none'
+          })}>
+            The Standard
+          </NavLink>
+
+          {user ? (
+            <button
+              onClick={onLogout}
+              style={{
+                fontFamily: '"JetBrains Mono", monospace',
+                fontSize: 11,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: '#6b6b66',
+                fontWeight: 500,
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            <NavLink to="/login" style={({ isActive }) => ({
+              color: isActive ? '#0a0a0a' : '#6b6b66',
+              fontWeight: isActive ? 700 : 500,
+              textDecoration: 'none'
+            })}>
+              Account
+            </NavLink>
+          )}
+        </div>
+
       </div>
     </nav>
   )

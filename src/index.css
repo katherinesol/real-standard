@@ -1,18 +1,15 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400;1,9..40,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400;1,9..40,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg: #fafaf8;
-  --fg: #0a0a0a;
-  --border: #0a0a0a;
-  --green: #1a5c1a;
-  --green-light: #edf4ed;
-  --yellow: #7a5412;
-  --yellow-light: #fdf8ed;
-  --red: #7a1a1a;
-  --red-light: #fdf0f0;
-  --muted: #737373;
-  --surface: #f2f1ef;
+  --paper: #fafaf8;
+  --ink: #0a0a0a;
+  --accent: #1a5c1a;
+  --caution: #a88416;
+  --fail: #8a1a1a;
+  --muted: #6b6b66;
+  --hair: #d8d6cd;
+  --hatch: #ebe9df;
 }
 
 *, *::before, *::after {
@@ -25,20 +22,85 @@ html {
 
 body {
   font-family: 'DM Sans', system-ui, sans-serif;
-  background-color: var(--bg);
-  color: var(--fg);
+  background-color: var(--paper);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background-color: var(--fg);
-  color: var(--bg);
+  background-color: var(--ink);
+  color: var(--paper);
 }
 
+/* display font — Bebas Neue */
 .font-display {
-  font-family: 'Bebas Neue', Impact, sans-serif;
-  letter-spacing: 0.04em;
+  font-family: 'Bebas Neue', 'Oswald', 'Arial Narrow', sans-serif;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
 }
+
+/* mono font — JetBrains Mono for all labels, kickers, stats */
+.font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* tier mark — the I/II/III glyph badge */
+.tier-mark {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: center;
+  border: 1.5px solid var(--ink);
+  padding: 4px 10px 4px 4px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tier-mark .glyph {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  border: 1.5px solid var(--ink);
+  margin: -1.5px;
+}
+
+/* tier color variants */
+.tier-real  { background: var(--accent); color: #fff; }
+.tier-real  .glyph { background: #fff; color: var(--accent); border-color: #fff; }
+
+.tier-caut  { background: var(--paper); color: var(--ink); }
+.tier-caut  .glyph { background: var(--ink); color: var(--paper); }
+
+.tier-fail  { background: var(--ink); color: #fff; }
+.tier-fail  .glyph { background: #fff; color: var(--ink); }
+
+/* hatch pattern — used for missing product images */
+.hatch {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--hatch) 0 2px,
+    transparent 2px 6px
+  );
+}
+
+/* 2px rule dividers */
+.rule-t { border-top: 2px solid var(--ink); }
+.rule-b { border-bottom: 2px solid var(--ink); }
+.rule-l { border-left: 2px solid var(--ink); }
+.rule-r { border-right: 2px solid var(--ink); }
+
+/* hair dividers */
+.hair-t { border-top: 1px solid var(--hair); }
+.hair-b { border-bottom: 1px solid var(--hair); }
 
 a {
   color: inherit;

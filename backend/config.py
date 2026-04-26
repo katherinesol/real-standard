@@ -16,13 +16,13 @@ def create_app():
     # point to a local SQLite database file for development
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///real_standard.db"
     
-    # turn off modification tracking — not needed and uses extra memory
+    # turn off modification tracking
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
-    # secret key used to sign session cookies — keep this private in production
+    # secret key used to sign session cookies
     app.config["SECRET_KEY"] = "real-food-only-secret-key"
     
-    # allow the React frontend (running on a different port) to make requests
+    # allow the React frontend (runs on a different port) to make requests
     # supports_credentials=True allows session cookies to be sent cross-origin
     CORS(app, supports_credentials=True)
     
